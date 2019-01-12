@@ -1,0 +1,25 @@
+package com.bigdatacastillo.view;
+
+public class Terminal implements View{
+
+	public void directoryAlreadyExists(String path) {
+		// TODO Auto-generated method stub
+		System.out.println("[WARN] Directory " + path + " already exists!");
+	}
+
+	public void directoryCreated(String path) {
+		// TODO Auto-generated method stub
+		System.out.println("[INFO] Directory was succesfully created in " + path);
+	}
+
+	public void fileAlreadyExists(String path) {
+		// TODO Auto-generated method stub
+		System.out.println("[ERROR] File " + path + " already exists!");
+	}
+
+	public void fileCreated(String path) {
+		// TODO Auto-generated method stub
+		System.out.println("[INFO] File was succesfully created in " + path);
+	}
+	
+}
