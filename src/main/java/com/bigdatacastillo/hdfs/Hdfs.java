@@ -2,10 +2,14 @@ package com.bigdatacastillo.hdfs;
 
 import java.io.IOException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.permission.FsPermission;
 
 import com.bigdatacastillo.view.Terminal;
 import com.bigdatacastillo.view.View;
@@ -22,7 +26,7 @@ public class Hdfs {
 		Configuration configuration = new Configuration(true);
 		configuration.set("fs.defaultFS", "hdfs://localhost:8020/");
 		
-		System.setProperty("HADOOP USER NAME", "hdfs");
+		System.setProperty("HADOOP_USER_NAME", "hdfs");
 		
 		try {
 			FileSystem fs = FileSystem.get(configuration);
@@ -45,9 +49,27 @@ public class Hdfs {
 				fSDataOutputStream.writeBytes(content);
 				fSDataOutputStream.close();
 				view.fileCreated(desiredFilePath.toString());
+				
 			} else {
 				view.fileAlreadyExists(desiredFilePath.toString());
 			}
+			
+			//Reading the file we just created
+			FSDataInputStream fSDataInputStream = fs.open(desiredFilePath);
+			view.showFileContain(IOUtils.toString(fSDataInputStream, "UTF-8"));
+			
+			FileStatus fileStatus = fs.getFileStatus(desiredFilePath);
+			view.showFileMetadata(fileStatus.getOwner(), fileStatus.getPermission().toString());
+			
+			fs.setOwner(desiredFilePath, "cloudera", "cloudera");
+			
+			FsPermission fSPermission = FsPermission.valueOf("-rwxrwxrwx");
+			fs.setPermission(desiredFilePath, fSPermission);
+			
+			fileStatus = fs.getFileStatus(desiredFilePath);
+			view.showFileMetadata(fileStatus.getOwner(), fileStatus.getPermission().toString());
+			
+			
 			
 			fs.close();
 			

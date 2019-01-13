@@ -10,4 +10,8 @@ public interface View {
 
 	void fileCreated(String path);
 	
+	void showFileContain(String content);
+
+	void showFileMetadata(String owner, String permission);
+	
 }

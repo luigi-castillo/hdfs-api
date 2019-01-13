@@ -21,5 +21,15 @@ public class Terminal implements View{
 		// TODO Auto-generated method stub
 		System.out.println("[INFO] File was succesfully created in " + path);
 	}
+
+	public void showFileContain(String content) {
+		// TODO Auto-generated method stub
+		System.out.println("Output: " + content);
+	}
+
+	public void showFileMetadata(String owner, String permission) {
+		// TODO Auto-generated method stub
+		System.out.println("Owner: "+ owner + " Permissions: " + permission);
+	}
 	
 }
