@@ -1,6 +1,8 @@
-package com.bigdatacastillo.hdfs;
+package com.ljc.bigdata.hadoopHdfsApi;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -9,10 +11,11 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.permission.AclEntry;
 import org.apache.hadoop.fs.permission.FsPermission;
 
-import com.bigdatacastillo.view.Terminal;
-import com.bigdatacastillo.view.View;
+import com.ljc.bigdata.view.Terminal;
+import com.ljc.bigdata.view.View;
 
 public class Hdfs {
 	
@@ -69,10 +72,24 @@ public class Hdfs {
 			fileStatus = fs.getFileStatus(desiredFilePath);
 			view.showFileMetadata(fileStatus.getOwner(), fileStatus.getPermission().toString());
 			
+			//Al igual que hemos realizado con la línea de comandos, podemos mover fichero de Local al HDFS y viceversa.
+			//Local --> HDFS
+			fs.copyFromLocalFile(false, true, new Path("/home/cloudera/archivos/bmw-browsers.csv"), desiredDirectoryPath);
+
+			// ACL
+			AclEntry aclUser = AclEntry.parseAclEntry("user::rwx", true);
+			AclEntry aclCloudera = AclEntry.parseAclEntry("user:cloudera:r-x", true);
+		    AclEntry aclGroup = AclEntry.parseAclEntry("group::r-x", true);
+		    AclEntry aclOther = AclEntry.parseAclEntry("other::r--", true);
+		    List<AclEntry> aclEntryList = new ArrayList<AclEntry>();
+		    aclEntryList.add(aclUser);
+		    aclEntryList.add(aclCloudera);
+		    aclEntryList.add(aclGroup);
+		    aclEntryList.add(aclOther);
 			
-			
-			fs.close();
-			
+		    fs.setAcl(desiredDirectoryPath, aclEntryList);
+		    
+		    fs.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

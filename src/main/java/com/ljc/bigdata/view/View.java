@@ -1,4 +1,4 @@
-package com.bigdatacastillo.view;
+package com.ljc.bigdata.view;
 
 public interface View {
 
@@ -13,5 +13,7 @@ public interface View {
 	void showFileContain(String content);
 
 	void showFileMetadata(String owner, String permission);
+
+	void snapshotCreated(String snapshotName, String string);
 	
 }

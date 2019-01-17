@@ -1,4 +1,4 @@
-package com.bigdatacastillo.view;
+package com.ljc.bigdata.view;
 
 public class Terminal implements View{
 
@@ -30,6 +30,11 @@ public class Terminal implements View{
 	public void showFileMetadata(String owner, String permission) {
 		// TODO Auto-generated method stub
 		System.out.println("Owner: "+ owner + " Permissions: " + permission);
+	}
+
+	public void snapshotCreated(String snapshotName, String snapshottedDirectoryPath) {
+		// TODO Auto-generated method stub
+		System.out.println("Snapshot " + snapshotName + " was successfully created based from " + snapshottedDirectoryPath);
 	}
 	
 }

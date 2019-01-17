@@ -5,7 +5,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
 
-public class Prueba {
+public class FileExists {
 	private static String nuevaCarpeta = "Newton";
 	
 	public static void main(String[] args) {
